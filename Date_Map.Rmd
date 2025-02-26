@@ -1,8 +1,10 @@
 ---
-title: "Homework: Lubridate and Purrr"
+title: 'Homework: Lubridate and Purrr'
 author: "Jesse Brandt and Collin Brown"
 date: "2025-02-25"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 ```{r}
 library(tidyverse)
@@ -31,7 +33,7 @@ df <- (data.frame(date, year)) %>% #bind those two columns together
 df
 ```
 
-#Exercise 2 Question 2
+# Exercise 2 Question 2
 Given the following dates, compute the difference in months and weeks between each consecutive pair.
 ```{r}
 sample_dates <- c("2018-03-15", "2020-07-20", "2023-01-10", "2025-09-05") %>%
@@ -47,26 +49,26 @@ dates <- sample_dates %>%
 dates
 ```
 
-#Exercise 3 Question 3
+# Exercise 3 Question 3
 Using map() and map_dbl(), compute the mean, median, and standard deviation for each numeric vector in the following list
 
 ```{r}
 num_lists <- list(c(4, 16, 25, 36, 49), c(2.3, 5.7, 8.1, 11.4), c(10, 20, 30, 40, 50))
-.f = function(l){
+.f = function(l){ #create function to compute mean, median, and standard deviation
   return(c(mean(l), median(l), sd(l)))
 }
-map(num_lists, .f)
+map(num_lists, .f) # apply function to each vector in list
 
 #why use map and map_dbl? there is only one list which needs functions applied to each item
 #the inner lists need multiple functions applied to the whole list instead
 ```
 
-#Exercise 4 Question 4
+# Exercise 4 Question 4
 Given a list of mixed date formats, use map() and possibly() from purrr to safely convert them to Date format and extract the month name.
 
 Assumptions: possible formats are ymd and dmy. (Without assumption, date 1 is ambiguous).
 
-```{r, warning = false}
+```{r, warning = F}
 date_strings <- list("2023-06-10", "2022/12/25", "15-Aug-2021", "InvalidDate")
 d = date_strings[1]
 date_convert = function(d){ #function to convert dates in either format
