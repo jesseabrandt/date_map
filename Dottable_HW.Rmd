@@ -1,0 +1,87 @@
+---
+title: "Dottable Homework"
+author: "Collin Brown and Jesse Brandt"
+date: "2025-03-04"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Libraries
+```{r}
+library(tidyverse)
+library(dplyr)
+library(data.table)
+```
+
+# Load data
+```{r}
+nycdata <- fread("nycdata.csv")
+glimpse(nycdata)
+```
+
+# Problem 1
+Use and show data.table code to select the variables year, month, day, and hour from the imported flights data
+```{r}
+nycdata[, .(year,month,day,hour)]
+```
+
+# Problem 2
+Use and show data. table code to produce a table that shows a carrier of DL, an origin of JFK and a destination of SEA
+```{r}
+nycdata[carrier == "DL" & origin == "JFK" & dest == "SEA"]
+```
+
+# Problem 3
+Use and show data.table code to produce a table that shows a carrier of UA, a month of March, and an airtime that is below 330.
+```{r}
+nycdata[carrier == "UA" & month == 3 & air_time < 330]
+```
+
+# Problem 4
+Use and show tidyverse code to produce a table that shows a carrier of UA, a month of March, and an airtime that is below 330.
+```{r}
+nycdata_4 <- nycdata |>
+  filter(carrier == "UA", month == 3, air_time < 330)
+nycdata_4
+```
+
+# Problem 5
+Use the data.table method to add a variable called speed that is the average air speed of the plane in miles per hour.
+```{r}
+nycdata_5 <- nycdata
+nycdata_5[, speed := (distance / air_time * 60)]
+nycdata_5
+```
+
+# Problem 6
+Use the tidyverse method to add a variable called speed that is the average air speed of the plane in miles per hour.
+```{r}
+nycdata_6 <- nycdata |>
+  mutate(speed = (distance / air_time) * 60)
+nycdata_6
+```
+
+# Problem 7a
+Show and use coding to change the carrier abbreviation of UA to UniitedAir (sic),
+7a. data.table method
+```{r}
+nycdata_7a <- nycdata
+nycdata_7a[carrier == "UA", carrier := "UnitedAir"] 
+unique(nycdata_7a$carrier) # list all carriers
+nycdata_7a
+```
+
+# Problem 7b
+Show and use coding to change the carrier abbreviation of UA to UniitedAir (sic),
+7b. tidyverse method (Use a sequence of dplyr commands so that you can see the change in your table)
+```{r}
+nycdata_7b <- nycdata |>
+  mutate(carrier = case_when(carrier == "UA" ~ "UnitedAir", TRUE ~ carrier))
+unique(nycdata_7b$carrier) # list all carriers
+nycdata_7b
+```
